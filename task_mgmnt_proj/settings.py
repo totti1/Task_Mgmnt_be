@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authentication.apps.AuthenticationConfig',
+    'taskApp.apps.TaskappConfig',
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',

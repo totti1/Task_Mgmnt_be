@@ -9,14 +9,13 @@ class Project(models.Model):
     date_added = models.DateField(auto_now_add=True, editable=False)
 
     def __str__(self):
-        return self.product_name
+        return self.project_name
 
 class Task(models.Model):
     task_name = models.CharField(max_length=30)
     description = models.TextField()
-    start_date = models.DateField(auto_now_add=True, editable=False)
-    end_date = models.DateField(auto_now_add=True, editable=False)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    start_date = models.DateField()
+    end_date = models.DateField()
     assignee = models.ManyToManyField(User)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
     priority = models.CharField(max_length=30)
@@ -24,4 +23,4 @@ class Task(models.Model):
 
 
     def __str__(self):
-        return self.product_name
+        return self.task_name

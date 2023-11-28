@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 
-
 from rest_framework import status
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
@@ -38,20 +37,18 @@ def tasks(request):
         task_serializer= TaskSerializer(task, many=True)
         project_serializer = ProjectSerializer(prods, many=True)
             
-        return Response({"data":product_serializer.data, "cart_data":cart_serializer.data, "status":status.HTTP_200_OK})
+        return Response({"data":task_serializer.data, "project":project_serializer.data, "status":status.HTTP_200_OK})
 
     elif request.method == 'POST':
 
-        # if not 'text' in request.data.keys():
-        #     return Response({'detail':'No text parameter found.'}, status=status.HTTP_404_NOT_FOUND)
         data={}
         
         user_id = Token.objects.get(key=request.auth.key).user_id
 
-        data['product'] = request.data["product"]
+        data['task'] = request.data["task"]
         data['user'] = user_id
 
-        serializer = CartSerializer(data=data)
+        serializer = TaskSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -63,11 +60,9 @@ def tasks(request):
 @api_view(['GET', 'POST'])
 def projects(request):
     if request.method == 'GET':
-        # user_id = Token.objects.get(key=request.auth.key).user_id
-        # user_info = User.objects.get(id=user_id)
-        data = Product.objects.all()
+        data = Project.objects.all()
 
-        serializer = ProductSerializer(data, many=True)
+        serializer = ProjectSerializer(data, many=True)
 
         return Response({"data":serializer.data, "status":status.HTTP_200_OK})
 
